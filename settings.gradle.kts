@@ -24,4 +24,5 @@ dependencyResolutionManagement {
 rootProject.name = "samtal"
 
 include(":samtal-core")
+include(":samtal-discord")
 include(":samtal-kotlin")
