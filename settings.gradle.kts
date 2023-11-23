@@ -26,3 +26,6 @@ rootProject.name = "samtal"
 include(":samtal-core")
 include(":samtal-discord")
 include(":samtal-kotlin")
+
+include(":samtal-gateway")
+include(":samtal-gateway-d4j")
