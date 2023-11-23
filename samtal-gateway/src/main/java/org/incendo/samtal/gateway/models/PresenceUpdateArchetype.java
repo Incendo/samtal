@@ -23,23 +23,39 @@
 //
 package org.incendo.samtal.gateway.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import java.util.List;
 import org.apiguardian.api.API;
-import org.immutables.value.Value;
-import org.incendo.samtal.gateway.ImmutableStyle;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-/**
- * <a href="https://discord.com/developers/docs/topics/gateway-events#update-presence">Update Presence</a>.
- *
- * @since 1.0.0
- */
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@JsonIgnoreProperties(ignoreUnknown = true)
-@ImmutableStyle
-@Value.Immutable
 @API(status = API.Status.STABLE, since = "1.0.0")
-public interface AbstractUpdatePresence extends PresenceUpdateArchetype {
+public interface PresenceUpdateArchetype {
 
+    /**
+     * Returns the UNIX timestamp when the client went idle.
+     *
+     * @return the timestamp when the client went idle, or {@code null}
+     */
+    @Nullable Long since();
+
+    /**
+     * Returns the user's new status.
+     *
+     * @return the new status
+     */
+    @NonNull Status status();
+
+    /**
+     * Returns the user's activities.
+     *
+     * @return the activities
+     */
+    @NonNull List<@NonNull AbstractActivity> activities();
+
+    /**
+     * Returns whether client is afk.
+     *
+     * @return whether the client is afk
+     */
+    boolean afk();
 }

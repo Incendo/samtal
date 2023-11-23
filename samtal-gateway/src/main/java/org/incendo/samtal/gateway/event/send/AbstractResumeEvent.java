@@ -21,17 +21,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-package org.incendo.samtal.gateway.models;
+package org.incendo.samtal.gateway.event.send;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import org.apiguardian.api.API;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.immutables.value.Value;
 import org.incendo.samtal.gateway.ImmutableStyle;
+import org.incendo.samtal.gateway.event.GatewayEvent;
+import org.incendo.samtal.gateway.event.GatewayEventType;
 
 /**
- * <a href="https://discord.com/developers/docs/topics/gateway-events#update-presence">Update Presence</a>.
+ * <a href="https://discord.com/developers/docs/topics/gateway-events#resume">Resume</a>.
+ * <p>
+ * Used to replay missed events when a disconnected client resumes.
  *
  * @since 1.0.0
  */
@@ -40,6 +45,31 @@ import org.incendo.samtal.gateway.ImmutableStyle;
 @ImmutableStyle
 @Value.Immutable
 @API(status = API.Status.STABLE, since = "1.0.0")
-public interface AbstractUpdatePresence extends PresenceUpdateArchetype {
+public interface AbstractResumeEvent extends GatewayEvent {
 
+    /**
+     * Returns the session token.
+     *
+     * @return the session token
+     */
+    @NonNull String token();
+
+    /**
+     * Returns the session id.
+     *
+     * @return the session id
+     */
+    @NonNull String sessionId();
+
+    /**
+     * Returns the last sequence number received.
+     *
+     * @return the last received sequence number
+     */
+    int seq();
+
+    @Override
+    default @NonNull GatewayEventType type() {
+        return SendEventTypes.RESUME;
+    }
 }

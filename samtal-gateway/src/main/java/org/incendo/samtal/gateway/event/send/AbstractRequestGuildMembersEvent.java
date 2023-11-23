@@ -28,20 +28,20 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import java.util.List;
 import org.apiguardian.api.API;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.immutables.value.Value;
+import org.incendo.samtal.discord.Snowflake;
 import org.incendo.samtal.gateway.ImmutableStyle;
 import org.incendo.samtal.gateway.event.GatewayEvent;
 import org.incendo.samtal.gateway.event.GatewayEventType;
-import org.incendo.samtal.gateway.models.AbstractConnectionProperties;
-import org.incendo.samtal.gateway.models.AbstractUpdatePresence;
-import org.incendo.samtal.gateway.models.Intents;
 
 /**
- * <a href="https://discord.com/developers/docs/topics/gateway-events#identify">Identify</a>.
+ * <a href="https://discord.com/developers/docs/topics/gateway-events#request-guild-members">
+ *     Request Guild Members</a>.
  * <p>
- * Used to trigger the initial handshake with the gateway.
+ * Used to request all members for a guild or a list of guilds.
  *
  * @since 1.0.0
  */
@@ -50,65 +50,60 @@ import org.incendo.samtal.gateway.models.Intents;
 @ImmutableStyle
 @Value.Immutable
 @API(status = API.Status.STABLE, since = "1.0.0")
-public interface AbstractIdentifyEvent extends GatewayEvent {
+public interface AbstractRequestGuildMembersEvent extends GatewayEvent {
 
     /**
-     * Returns the authentication token.
+     * Returns the ID of the guild to get members for.
      *
-     * @return the token
+     * @return the guild id
      */
-    @NonNull String token();
+    @NonNull Snowflake guildId();
 
     /**
-     * Returns the connection properties.
+     * Returns the string that the username starts with, or an empty
+     * string to return all members.
      *
-     * @return the connection properties
+     * @return the query string, or {@code null}
      */
-    @NonNull AbstractConnectionProperties properties();
+    @Nullable String query();
 
     /**
-     * Returns whether the connection supports compression of packets.
+     * Returns the maximum number of members to send matching the {@link #query()}.
+     * <p>
+     * A limit of {@code 0} can be used with an empty string {@link #query()} to return all members.
+     * <p>
+     * The {@code GUILD_MEMBERS} intent is required to fetch all members.
      *
-     * @return whether compression is supported
+     * @return the limit
+     */
+    @MonotonicNonNull Integer limit();
+
+    /**
+     * Returns whether to return the presences of all players. This requires the {@code GUILD_PRESENCES} intent.
+     *
+     * @return whether to include the presences
      */
     @Value.Default
-    default boolean compress() {
+    default boolean presences() {
         return false;
     }
 
     /**
-     * Returns the total number of members where the gateway will stop sending offline members.
+     * Returns the users to fetch.
      *
-     * @return the member threshold for offline members
+     * @return the users to fetch, or {@code null}
      */
-    @Value.Default
-    default int largeThreshold() {
-        return 50;
-    }
+    @Nullable List<@NonNull Snowflake> userIds();
 
     /**
-     * Returns the presence update.
+     * Returns the nonce used to identify the response. Can only be up to 32 bytes.
      *
-     * @return the presence update, or {@code null}
+     * @return the nonce, or {@code null}
      */
-    @Nullable AbstractUpdatePresence presence();
-
-    /**
-     * Returns the sharding information.
-     *
-     * @return sharding information
-     */
-    @Nullable List<@NonNull Integer> shard();
-
-    /**
-     * Returns the intents.
-     *
-     * @return the intents
-     */
-    @NonNull Intents intents();
+    @Nullable String nonce();
 
     @Override
     default @NonNull GatewayEventType type() {
-        return SendEventTypes.IDENTIFY;
+        return SendEventTypes.REQUEST_GUILD_MEMBERS;
     }
 }

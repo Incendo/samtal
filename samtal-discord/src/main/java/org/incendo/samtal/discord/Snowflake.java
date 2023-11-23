@@ -49,6 +49,15 @@ public record Snowflake(
 ) {
 
     /**
+     * Returns the snowflake as a long.
+     *
+     * @return the snowflake
+     */
+    public long asLong() {
+        return Long.getLong(this.value);
+    }
+
+    /**
      * Returns a snowflake with the given {@code value}.
      *
      * @param value the value

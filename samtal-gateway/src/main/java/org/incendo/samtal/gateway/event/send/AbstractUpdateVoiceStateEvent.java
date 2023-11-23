@@ -21,17 +21,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-package org.incendo.samtal.gateway.models;
+package org.incendo.samtal.gateway.event.send;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import org.apiguardian.api.API;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.immutables.value.Value;
+import org.incendo.samtal.discord.Snowflake;
 import org.incendo.samtal.gateway.ImmutableStyle;
+import org.incendo.samtal.gateway.event.GatewayEvent;
+import org.incendo.samtal.gateway.event.GatewayEventType;
 
 /**
- * <a href="https://discord.com/developers/docs/topics/gateway-events#update-presence">Update Presence</a>.
+ * <a href="https://discord.com/developers/docs/topics/gateway-events#update-voice-state">
+ *     Update Voice State</a>.
  *
  * @since 1.0.0
  */
@@ -40,6 +46,38 @@ import org.incendo.samtal.gateway.ImmutableStyle;
 @ImmutableStyle
 @Value.Immutable
 @API(status = API.Status.STABLE, since = "1.0.0")
-public interface AbstractUpdatePresence extends PresenceUpdateArchetype {
+public interface AbstractUpdateVoiceStateEvent extends GatewayEvent {
 
+    /**
+     * Returns the ID of the guild.
+     *
+     * @return the guild id
+     */
+    @NonNull Snowflake guildId();
+
+    /**
+     * Returns the ID of the voice channel to join, or {@code null} to disconnect.
+     *
+     * @return the channel id, or {@code null}
+     */
+    @Nullable Snowflake channelId();
+
+    /**
+     * Returns whether the client is muted.
+     *
+     * @return whether the client is muted
+     */
+    boolean selfMute();
+
+    /**
+     * Returns whether the client is deafened.
+     *
+     * @return whether the client is deafened
+     */
+    boolean selfDeaf();
+
+    @Override
+    default @NonNull GatewayEventType type() {
+        return SendEventTypes.UPDATE_VOICE_STATE;
+    }
 }

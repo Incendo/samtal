@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    api(libs.jacksonDatabind)
+    api(project(":samtal-discord"))
 
     annotationProcessor(libs.immutables)
     implementation(libs.immutables)
