@@ -4,4 +4,5 @@ plugins {
 
 dependencies {
     api(projects.samtalCore)
+    api(libs.feignKotlin)
 }

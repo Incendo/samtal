@@ -1,5 +1,3 @@
-import org.gradle.accessors.dm.LibrariesForLibs
-
 plugins {
     id("samtal.base-conventions")
     kotlin("jvm")
@@ -25,7 +23,7 @@ dependencies {
 
 spotless {
     kotlin {
-        ktlint(the<LibrariesForLibs>().versions.ktlint.get())
+        ktlint(libs.versions.ktlint.get())
             .editorConfigOverride(
                 mapOf(
                     "ktlint_standard_filename" to "disabled",
@@ -34,4 +32,8 @@ spotless {
                 )
             )
     }
+}
+
+dependencies {
+    testImplementation(libs.mockitoKotlin)
 }

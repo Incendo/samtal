@@ -1,5 +1,4 @@
 import com.diffplug.gradle.spotless.FormatExtension
-import org.gradle.accessors.dm.LibrariesForLibs
 
 plugins {
     id("net.kyori.indra")
@@ -13,7 +12,7 @@ indra {
         target(17)
         testWith(17, 21)
     }
-    checkstyle(the<LibrariesForLibs>().versions.checkstyle.get())
+    checkstyle(libs.versions.checkstyle.get())
 }
 
 tasks {
@@ -38,7 +37,7 @@ spotless {
         applyCommon()
     }
     kotlinGradle {
-        ktlint(the<LibrariesForLibs>().versions.ktlint.get())
+        ktlint(libs.versions.ktlint.get())
     }
     format("configs") {
         target("**/*.yml", "**/*.yaml", "**/*.json")
@@ -48,4 +47,16 @@ spotless {
 
 // Common dependencies.
 dependencies {
+    compileOnlyApi(libs.checkerQual)
+    compileOnlyApi(libs.apiguardian)
+
+    testDependencies()
+}
+
+fun DependencyHandlerScope.testDependencies() {
+    testImplementation(libs.mockito)
+    testImplementation(libs.mockitoJupiter)
+    testImplementation(libs.truth)
+    testImplementation(libs.jupiterEngine)
+    testImplementation(libs.jupiterParams)
 }
