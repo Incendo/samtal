@@ -21,8 +21,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-package org.incendo.samtal.gateway.discord4j;
+package org.incendo.samtal.gateway;
 
-public class Dummy {
+import org.apiguardian.api.API;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
+@FunctionalInterface
+@API(status = API.Status.STABLE, since = "1.0.0")
+public interface SamtalGatewayFactory<T extends SamtalGateway> {
+
+    /**
+     * Creates a new gateway instance from the given {@code configuration}.
+     *
+     * @param configuration the configuration
+     * @return the created gateway instance
+     */
+    @NonNull T createGateway(@NonNull GatewayConfiguration configuration);
 }

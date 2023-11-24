@@ -21,35 +21,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-package org.incendo.samtal.gateway;
+package org.incendo.samtal.gateway.discord4j;
 
-import java.util.concurrent.CompletableFuture;
-import org.apiguardian.api.API;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.incendo.samtal.gateway.event.GatewayEvent;
+import org.incendo.samtal.gateway.ConnectionOptions;
+import org.incendo.samtal.gateway.GatewayConfiguration;
+import org.incendo.samtal.gateway.SamtalGateway;
+import org.incendo.samtal.gateway.SamtalGatewayFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * A client that is able to interact with gateway.
- *
- * @since 1.0.0
- */
-@API(status = API.Status.STABLE, since = "1.0.0")
-public interface SamtalGateway {
+public final class Test {
 
-    /**
-     * Connects to gateway using the given {@code options}.
-     *
-     * @param options the options
-     * @return future that completes when the connection has been established
-     */
-    @NonNull CompletableFuture<Void> connect(@NonNull ConnectionOptions options);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Test.class);
+
+    private Test() {
+    }
 
     /**
-     * Sends the given {@code event}.
+     * Starts the application.
      *
-     * @param <E> the type of the event
-     * @param event event
-     * @return future that completes when the event has been sent
+     * @param args the args
      */
-    <E extends GatewayEvent> @NonNull CompletableFuture<Void> send(@NonNull E event);
+    public static void main(final @NonNull String @NonNull[] args) {
+        final GatewayConfiguration configuration = GatewayConfiguration.builder()
+                .token(System.getenv("DISCORD_TOKEN"))
+                .build();
+        final SamtalGatewayFactory<Discord4JSamtalGateway> factory = new Discord4JSamtalGatewayFactory();
+        final SamtalGateway gateway = factory.createGateway(configuration);
+        gateway.connect(ConnectionOptions.builder().gatewayUrl("https://google.com").build()).join();
+        LOGGER.info("Created :)");
+    }
 }

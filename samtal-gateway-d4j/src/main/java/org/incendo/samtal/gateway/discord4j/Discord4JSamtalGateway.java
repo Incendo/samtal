@@ -27,6 +27,7 @@ import discord4j.gateway.GatewayClient;
 import java.util.concurrent.CompletableFuture;
 import org.apiguardian.api.API;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.incendo.samtal.gateway.ConnectionOptions;
 import org.incendo.samtal.gateway.SamtalGateway;
 import org.incendo.samtal.gateway.event.GatewayEvent;
 
@@ -41,13 +42,13 @@ public final class Discord4JSamtalGateway implements SamtalGateway {
     private final EventMapper eventMapper = new EventMapper();
     private final GatewayClient gatewayClient;
 
-    /**
-     * Creates a new {@link Discord4JSamtalGateway} that uses the given {@code gatewayClient}.
-     *
-     * @param gatewayClient the client to use
-     */
-    public Discord4JSamtalGateway(final @NonNull GatewayClient gatewayClient) {
+    Discord4JSamtalGateway(final @NonNull GatewayClient gatewayClient) {
         this.gatewayClient = gatewayClient;
+    }
+
+    @Override
+    public @NonNull CompletableFuture<Void> connect(@NonNull final ConnectionOptions options) {
+        return this.gatewayClient.execute(options.gatewayUrl()).toFuture();
     }
 
     @Override

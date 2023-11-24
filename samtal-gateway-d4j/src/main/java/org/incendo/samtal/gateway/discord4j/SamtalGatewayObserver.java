@@ -21,35 +21,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-package org.incendo.samtal.gateway;
+package org.incendo.samtal.gateway.discord4j;
 
-import java.util.concurrent.CompletableFuture;
+import discord4j.gateway.GatewayObserver;
+import discord4j.gateway.IdentifyOptions;
 import org.apiguardian.api.API;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.incendo.samtal.gateway.event.GatewayEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import reactor.netty.ConnectionObserver;
 
-/**
- * A client that is able to interact with gateway.
- *
- * @since 1.0.0
- */
-@API(status = API.Status.STABLE, since = "1.0.0")
-public interface SamtalGateway {
+@API(status = API.Status.INTERNAL, since = "1.0.0")
+final class SamtalGatewayObserver implements GatewayObserver {
 
-    /**
-     * Connects to gateway using the given {@code options}.
-     *
-     * @param options the options
-     * @return future that completes when the connection has been established
-     */
-    @NonNull CompletableFuture<Void> connect(@NonNull ConnectionOptions options);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SamtalGatewayObserver.class);
 
-    /**
-     * Sends the given {@code event}.
-     *
-     * @param <E> the type of the event
-     * @param event event
-     * @return future that completes when the event has been sent
-     */
-    <E extends GatewayEvent> @NonNull CompletableFuture<Void> send(@NonNull E event);
+    @Override
+    public void onStateChange(
+            final ConnectionObserver.@NonNull State newState,
+            final @NonNull IdentifyOptions identifyOptions
+    ) {
+        LOGGER.info("Connection state changed to {} - Identify options: {}", newState, identifyOptions);
+    }
 }

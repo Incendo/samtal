@@ -15,6 +15,7 @@ checkerQual = "3.40.0"
 apiguardian = "1.1.2"
 immutables = "2.9.2"
 discord4jGateway = "3.0.16"
+slf4j = "2.0.9"
 
 # Test
 jupiterEngine = "5.10.1"
@@ -36,6 +37,7 @@ checkerQual = { group = "org.checkerframework", name = "checker-qual", version.r
 apiguardian = { group = "org.apiguardian", name = "apiguardian-api", version.ref = "apiguardian" }
 immutables = { group = "org.immutables", name = "value", version.ref = "immutables" }
 discord4jGateway = { group = "com.discord4j", name = "discord4j-gateway", version.ref = "discord4jGateway" }
+slf4j = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
 
 # Test
 jupiterEngine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "jupiterEngine" }

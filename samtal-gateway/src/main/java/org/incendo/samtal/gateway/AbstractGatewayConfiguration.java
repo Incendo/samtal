@@ -23,33 +23,24 @@
 //
 package org.incendo.samtal.gateway;
 
-import java.util.concurrent.CompletableFuture;
 import org.apiguardian.api.API;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.incendo.samtal.gateway.event.GatewayEvent;
+import org.immutables.value.Value;
 
 /**
- * A client that is able to interact with gateway.
+ * Configuration used when connecting to Gateway.
  *
  * @since 1.0.0
  */
+@ImmutableStyle
+@Value.Immutable
 @API(status = API.Status.STABLE, since = "1.0.0")
-public interface SamtalGateway {
+public interface AbstractGatewayConfiguration {
 
     /**
-     * Connects to gateway using the given {@code options}.
+     * Returns the application token.
      *
-     * @param options the options
-     * @return future that completes when the connection has been established
+     * @return the token
      */
-    @NonNull CompletableFuture<Void> connect(@NonNull ConnectionOptions options);
-
-    /**
-     * Sends the given {@code event}.
-     *
-     * @param <E> the type of the event
-     * @param event event
-     * @return future that completes when the event has been sent
-     */
-    <E extends GatewayEvent> @NonNull CompletableFuture<Void> send(@NonNull E event);
+    @NonNull String token();
 }

@@ -4,7 +4,8 @@ plugins {
 
 dependencies {
     api(project(":samtal-discord"))
+    api(libs.slf4j)
+    api(libs.immutables)
 
     annotationProcessor(libs.immutables)
-    implementation(libs.immutables)
 }
