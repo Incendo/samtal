@@ -3,7 +3,7 @@
 ## what
 samtal is two things:
 - A collection of accurate descriptions and models of the different Discord apis
-- A collection of implementations of the different apis, and connections between them
+- A collection of implementations of the different apis, and connections between them - forming a Discord application library
 
 ## why
 The world of JVM Discord libraries is a mess. There are many different libraries
