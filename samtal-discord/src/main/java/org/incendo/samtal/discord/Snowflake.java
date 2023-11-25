@@ -54,7 +54,7 @@ public record Snowflake(
      * @return the snowflake
      */
     public long asLong() {
-        return Long.getLong(this.value);
+        return Long.parseLong(this.value);
     }
 
     /**
